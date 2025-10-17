@@ -30,17 +30,12 @@ contract SendPackedUserOp is Script {
         // vm.startBroadcast();
         // IEntryPoint(helperConfig.getConfig().entryPoint).handleOps(ops, helperConfig.getConfig().account);
     }
-    
 
     function generateSignedUserOperation(
-        bytes memory callData, 
+        bytes memory callData,
         HelperConfig.NetworkConfig memory config,
         address minimalAccount
-    ) 
-        public 
-        view
-        returns (PackedUserOperation memory) 
-    {
+    ) public view returns (PackedUserOperation memory) {
         // 1. Generate the unsigned data
         uint256 nonce = vm.getNonce(minimalAccount) - 1; // why -1?
         // The sender should be the minimal account
@@ -64,14 +59,10 @@ contract SendPackedUserOp is Script {
         return unsignedUserOp; // It is now signed
     }
 
-    function _generateUnsignedUserOperation(
-        bytes memory callData, 
-        address sender,
-        uint256 nonce
-    ) 
-        internal 
-        pure 
-        returns (PackedUserOperation memory) 
+    function _generateUnsignedUserOperation(bytes memory callData, address sender, uint256 nonce)
+        internal
+        pure
+        returns (PackedUserOperation memory)
     {
         uint128 verificationGasLimit = 16777216;
         uint128 callGasLimit = verificationGasLimit;

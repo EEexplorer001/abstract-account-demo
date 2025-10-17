@@ -32,7 +32,7 @@ contract HelperConfig is Script {
 
     function getConfigByChainId(uint256 chainId) public returns (NetworkConfig memory) {
         if (chainId == LOCAL_CHAIN_ID) {
-            return  getOrCreateAnvilEthConfig();
+            return getOrCreateAnvilEthConfig();
         } else if (networkConfigs[chainId].account != address(0)) {
             return networkConfigs[chainId];
         } else {

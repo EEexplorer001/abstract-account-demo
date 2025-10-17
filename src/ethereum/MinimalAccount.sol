@@ -11,7 +11,6 @@ import {IEntryPoint} from "lib/account-abstraction/contracts/interfaces/IEntryPo
 
 // ERC-4337
 contract MinimalAccount is IAccount, Ownable {
-
     /////////////////////////
     ///////// Errors ////////
     /////////////////////////
@@ -52,7 +51,7 @@ contract MinimalAccount is IAccount, Ownable {
     }
 
     receive() external payable {}
-    
+
     // entrypoint -> this contract
 
     ///////////////////////////////
@@ -68,11 +67,9 @@ contract MinimalAccount is IAccount, Ownable {
     }
 
     // A signature is valid if it's the contract owner
-    function validateUserOp(
-        PackedUserOperation calldata userOp,
-        bytes32 userOpHash,
-        uint256 missingAccountFunds
-    ) external returns (uint256 validationData)
+    function validateUserOp(PackedUserOperation calldata userOp, bytes32 userOpHash, uint256 missingAccountFunds)
+        external
+        returns (uint256 validationData)
     {
         validationData = _validateSignature(userOp, userOpHash);
         // _validateNonce(userOp);
@@ -84,11 +81,11 @@ contract MinimalAccount is IAccount, Ownable {
     ///////////////////////////////
 
     // EIP-191 version of signed hash
-    // 
-    function _validateSignature(PackedUserOperation calldata userOp, bytes32 userOpHash) 
-        internal 
-        view 
-        returns (uint256 validationData) 
+    //
+    function _validateSignature(PackedUserOperation calldata userOp, bytes32 userOpHash)
+        internal
+        view
+        returns (uint256 validationData)
     {
         // This function implements the EIP-191 “Ethereum Signed Message” prefixing logic
         bytes32 ethSignedMessageHash = MessageHashUtils.toEthSignedMessageHash(userOpHash);
@@ -104,7 +101,7 @@ contract MinimalAccount is IAccount, Ownable {
     function _payPrefund(uint256 missingAccountFunds) internal {
         if (missingAccountFunds != 0) {
             (bool success,) = payable(msg.sender).call{value: missingAccountFunds, gas: type(uint256).max}("");
-            (success); 
+            (success);
         }
     }
 
